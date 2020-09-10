@@ -24,6 +24,7 @@ app.get('/bananas', (req, res) =>
   res.send('hello world, this is bananas'));
 
 
+
   app.post('/book', (req, res) => {
       const book = req.body;
       books.push(book);
@@ -32,6 +33,16 @@ app.get('/bananas', (req, res) =>
       console.log(`book name is ${book.name} number of book is ${books.length}`);
 
   });
+
+  app.get('/books', (req, res) => {
+      res.json(books);
+  })
+
+  app.get('/books/:id', (req,res) => {
+
+     let id = req.params.id;
+      res.send(books[id]);
+  })
 
 app.listen(port,  () => console.log(`Example app listening on 
   ${port}!`))
