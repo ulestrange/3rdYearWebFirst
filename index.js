@@ -44,5 +44,13 @@ app.get('/bananas', (req, res) =>
       res.json(books[id]);
   })
 
+  app.delete('/books/:id',(req, res) => {
+    let id = req.params.id; 
+    console.log(`removing book ${books[id].name}`)
+    books.splice(req.params.id, 1);
+    res.send(books);
+
+  })
+
 app.listen(port,  () => console.log(`Example app listening on 
   ${port}!`))
