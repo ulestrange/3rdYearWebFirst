@@ -35,13 +35,13 @@ app.get('/bananas', (req, res) =>
   });
 
   app.get('/books', (req, res) => {
-      res.json(books);
+      res.send(books);
   })
 
   app.get('/books/:id', (req,res) => {
 
      let id = req.params.id;
-      res.send(books[id]);
+      res.json(books[id]);
   })
 
 app.listen(port,  () => console.log(`Example app listening on 
