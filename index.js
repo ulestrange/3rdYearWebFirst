@@ -25,14 +25,14 @@ app.get('/bananas', (req, res) =>
 
 
 
-  app.post('/book', (req, res) => {
-      const book = req.body;
-      books.push(book);
+//   app.post('/book', (req, res) => {
+//       const book = req.body;
+//       books.push(book);
 
-      res.send ('book has been added to the database');
-      console.log(`book name is ${book.name} number of book is ${books.length}`);
+//       res.send ('book has been added to the database');
+//       console.log(`book name is ${book.name} number of book is ${books.length}`);
 
-  });
+//   });
 
   app.get('/books', (req, res) => {
       res.send(books);
