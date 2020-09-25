@@ -1,5 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+
+const catalogue = require('./routes/catalogue.js')
 const app = express();
 
 const port = 3000;
@@ -9,10 +11,7 @@ const port = 3000;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-
-
-let books = [];
-
+app.use('/cat',catalogue)
 
 
 
@@ -34,23 +33,7 @@ app.get('/bananas', (req, res) =>
 
 //   });
 
-  app.get('/books', (req, res) => {
-      res.send(books);
-  })
 
-  app.get('/books/:id', (req,res) => {
-
-     let id = req.params.id;
-      res.json(books[id]);
-  })
-
-  app.delete('/books/:id',(req, res) => {
-    let id = req.params.id; 
-    console.log(`removing book ${books[id].name}`)
-    books.splice(req.params.id, 1);
-    res.send(books);
-
-  })
 
 app.listen(port,  () => console.log(`Example app listening on 
   ${port}!`))
