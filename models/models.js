@@ -10,19 +10,21 @@ const books =
 
 
 
-exports.getBooks = async (options = []) => {
+exports.getBooks = (options = []) => {
     return books;
 }
 
-exports.addBook = async (book) =>
+exports.addBook = (book) =>
 {
     books.push (book);
 }
 
-exports.removeBook = async (id) =>
+exports.removeBook =  (id) =>
 {
+    console.log(`removing book ${books[id].name}`)
+
     if (id < books.length) {
-        books.splice(req.params.id, 1);
+        books.splice(id, 1);
         return books;
     }
     else{
