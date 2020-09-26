@@ -1,5 +1,7 @@
 const express = require ('express');
 
+const bookControllers = require('../controllers/bookController');
+
 const router = express.Router();
 
 let books = [];
@@ -14,15 +16,10 @@ router.post('/book', (req, res) => {
 
 });
 
-router.get('/books', (req, res) => {
-    res.send(books);
-})
+router.get('/books', bookControllers.getBooksController );
 
-router.get('/books/:id', (req,res) => {
+router.get('/books/:id', bookControllers.getBookController );
 
-   let id = req.params.id;
-    res.json(books[id]);
-})
 
 router.delete('/books/:id',(req, res) => {
   let id = req.params.id; 
