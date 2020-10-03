@@ -1,7 +1,7 @@
-const express = require('express');
+import express from 'express';
 const bodyParser = require('body-parser');
 
-const catalogue = require('./routes/catalogue.js')
+const books = require('./routes/books.js')
 const app = express();
 
 const port = 3000;
@@ -11,13 +11,13 @@ const port = 3000;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.use('/cat',catalogue)
+app.use('/books',books)
 
 
 
 
 app.get('/', (req, res) =>
-  res.send('hello world, Una is using Express'));
+  res.send('hello world, Una is using Express this has changed'));
 
 app.get('/bananas', (req, res) =>
   res.send('hello world, this is bananas'));
