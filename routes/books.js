@@ -1,36 +1,42 @@
 
 import express from 'express';
 
+import db from '../models/books';
 
 const router = express.Router();
 
-let books = [];
+
+
+
 
 router.post('/', (req, res) => {
     const book = req.body;
-    books.push(book);
+// note: there is no validation of the request data here.
+// to be added later
+
+    db.addBook(book);
 
     res.send ('book has been added to the database');
-    console.log(`book name is ${book.name} number of book is ${books.length}`);
+   
 
 });
 
 router.get('/', (req, res) => {
+    const books = db.getBooks();
     res.send(books);
 })
 
 router.get('/:id', (req,res) => {
 
    let id = req.params.id;
-    res.json(books[id]);
+   const book = db.getBook(id);
+   res.json(book);
 })
 
 router.delete('/:id',(req, res) => {
   let id = req.params.id; 
-  console.log(`removing book ${books[id].name}`)
-  books.splice(req.params.id, 1);
-  res.send(books);
-
+  db.removeBook(id);
+  res.json("done");
 })
 
 export default router;
