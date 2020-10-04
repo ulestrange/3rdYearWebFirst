@@ -6,7 +6,7 @@ import db from '../models/bookService';
 const router = express.Router();
 
 
-router.put('/', (req, res) => {
+router.post('/', (req, res) => {
     const book = req.body;
 // note: there is no validation of the request data here.
 // to be added later
@@ -18,7 +18,7 @@ router.put('/', (req, res) => {
 });
 
 
-// To add: a post request to update a book.
+// To add: a put request to update a book.
 //
 
 router.get('/', (req, res) => {
