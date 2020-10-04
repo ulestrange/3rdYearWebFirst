@@ -1,41 +1,41 @@
 
 import express from 'express';
 
-import db from '../models/books';
+import db from '../models/bookService';
 
 const router = express.Router();
 
 
-
-
-
-router.post('/', (req, res) => {
+router.put('/', (req, res) => {
     const book = req.body;
 // note: there is no validation of the request data here.
 // to be added later
 
-    db.addBook(book);
+    db.createBook(book);
 
     res.send ('book has been added to the database');
    
-
 });
 
+
+// To add: a post request to update a book.
+//
+
 router.get('/', (req, res) => {
-    const books = db.getBooks();
+    const books = db.readBooks();
     res.send(books);
 })
 
 router.get('/:id', (req,res) => {
 
    let id = req.params.id;
-   const book = db.getBook(id);
+   const book = db.readBook(id);
    res.json(book);
 })
 
 router.delete('/:id',(req, res) => {
   let id = req.params.id; 
-  db.removeBook(id);
+  db.deleteBook(id);
   res.json("done");
 })
 
