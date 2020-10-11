@@ -31,8 +31,8 @@ mongoose.connect('mongodb://localhost:27017/test2DB', {
 
 const Kitten = mongoose.model('Kitten', kittySchema);
 
-const fluffy = new Kitten({ name: 'Fluffy' });
-console.log(fluffy.name); // 'Silence'
+
+
 
 
 
@@ -42,12 +42,14 @@ app.get('/', (req, res) => {
     res.send('Hello World isn\'t life great from Una!');
 })
 
-app.get('/addKitten', (req, res) => {
-    fluffy.save(function (err, fluffy) {
-        if (err) return console.error(err);
+app.get('/addKitten/:name', (req, res) => {
     
+    const aKitten = new Kitten({ name: req.params.name });
+    
+    aKitten.save((err, aKitten) => {
+        if (err) return console.error(err);   
       });
-    res.send('fluffy was saved')
+    res.send(`${req.params.name} was saved`)
 }
 );
 

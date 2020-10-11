@@ -1,39 +1,87 @@
 
-const books =
-[{"name":"War and Peace","quantity":5, "id": "isbn001"},
-{"name":"James and the Giant Peach","quantity":5 , "id": "isbn002"},
-{"name":"Gansta Granny","quantity":5,  "id": "isbn003"},
-{"name":"The Slap","quantity":5 , "id": "isbn004"},
-{"name":"Coding for Dummies","quantity":5 , "id": "isbn001"},
-{"name":"Watermelon","quantity":5 , "id": "isbn001"}
-];
+import mongoose from 'mongoose';
 
 
 
-function readBooks (options = [])  {
-    return books;
-}
+//import Book from "./bookModel";
 
-function readBook (id, options = []) {
-    return books[id];
-}
 
-function createBook (book) {
-    books.push (book);
-}
+//import mongoose from 'mongoose';
 
-function deleteBook  (id) {
-    console.log(`removing book ${books[id].name}`)
 
-    if (id < books.length) {
-        books.splice(id, 1);
-        return books;
+const Schema = mongoose.Schema;
+
+
+const BookSchema = new Schema(
+    {
+        title: { type: String, required: true },
+        summary: { type: String, required: true },
+        isbn: { type: String, required: true },
+
     }
-    else{
-        return false;
-    }
-
-    };
+);
 
 
-export default {createBook, deleteBook, readBooks,  readBook}
+
+
+const Book = mongoose.model('Book', BookSchema);
+
+
+
+
+
+
+
+
+function readBooks(req, res, options = []) {
+    Book.find()
+        .then((result) =>
+            res.json(result))
+        .catch((error) =>
+            res.status(500).json({ error: 'An error' }))
+}
+
+
+//
+
+function readBook(req, res) {
+    const id = req.params.id;
+    Book.findById(id)
+        .then((result) =>
+            res.json(result))
+        .catch((error) =>
+            res.status(404).json({ error: 'not found' }))
+}
+
+
+function createBook(req, res) {
+    let bookDoc = new Book(req.body);
+    bookDoc.save()
+        .then((result) => {
+            res.status(201).json({ id: result._id, uri: `/books/${result._id}` })
+        })
+        .catch((error) => {
+            res.status(412).json({ status: 'fail', message: 'not created' })
+        })
+}
+
+
+function deleteBook(req, res) {
+    const id = req.params.id;
+
+    Book.findByIdAndDelete(id).
+        then((result) =>{
+            if (result) {
+                res.status(203).send({ message: 'deleted' })
+            }
+            else {
+                res.status(404).send({message: 'not found'})
+            }
+        })
+        .catch((error) =>
+            res.status(404).send({ message: 'not found' }));
+}
+
+
+
+export default { createBook, deleteBook, readBooks, readBook }

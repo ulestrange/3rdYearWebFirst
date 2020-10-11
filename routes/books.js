@@ -7,14 +7,7 @@ const router = express.Router();
 
 
 router.post('/', (req, res) => {
-    const book = req.body;
-// note: there is no validation of the request data here.
-// to be added later
-
-    db.createBook(book);
-
-    res.send ('book has been added to the database');
-   
+    db.createBook(req, res);
 });
 
 
@@ -22,21 +15,19 @@ router.post('/', (req, res) => {
 //
 
 router.get('/', (req, res) => {
-    const books = db.readBooks();
-    res.send(books);
+   db.readBooks(req, res);
 })
 
 router.get('/:id', (req,res) => {
+    
+    db.readBook(req,res);
 
-   let id = req.params.id;
-   const book = db.readBook(id);
-   res.json(book);
 })
 
 router.delete('/:id',(req, res) => {
-  let id = req.params.id; 
-  db.deleteBook(id);
-  res.json("done");
+ 
+  db.deleteBook(req, res);
+
 })
 
 export default router;

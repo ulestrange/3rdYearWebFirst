@@ -5,20 +5,19 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 
-const bookSchema = new Schema({
-   iban: St
-    name: {
-      type: String,
-      required: true
-   },
-   quantity: {
-      type: Number,
-      default: 0
-   },
-   dateAdded: {
-      type: Date,
-      default: Date.now
+const BookSchema = new Schema(
+   {
+     title: {type: String, required: true},
+     summary: {type: String, required: true},
+     isbn: {type: String, required: true},
+     
    }
-});
+ );
+ 
+ 
+ //Export model
+const Book = mongoose.model('Book', BookSchema);
 
-module.exports = bookSchema;
+
+
+export default Book 
