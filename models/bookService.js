@@ -1,36 +1,5 @@
 
-import mongoose from 'mongoose';
-
-
-
-//import Book from "./bookModel";
-
-
-//import mongoose from 'mongoose';
-
-
-const Schema = mongoose.Schema;
-
-
-const BookSchema = new Schema(
-    {
-        title: { type: String, required: true },
-        summary: { type: String, required: true },
-        isbn: { type: String, required: true },
-
-    }
-);
-
-
-
-
-const Book = mongoose.model('Book', BookSchema);
-
-
-
-
-
-
+import {Book} from "./bookModel";
 
 
 function readBooks(req, res, options = []) {
@@ -40,9 +9,6 @@ function readBooks(req, res, options = []) {
         .catch((error) =>
             res.status(500).json({ error: 'An error' }))
 }
-
-
-//
 
 function readBook(req, res) {
     const id = req.params.id;
