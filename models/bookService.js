@@ -1,5 +1,5 @@
 
-import {Book} from "./bookModel";
+import { Book } from "./bookModel";
 
 
 function readBooks(req, res, options = []) {
@@ -24,11 +24,13 @@ function createBook(req, res) {
     let bookDoc = new Book(req.body);
     bookDoc.save()
         .then((result) => {
+            console.log('booked saved');
             res.status(201).json({ id: result._id, uri: `/books/${result._id}` })
         })
         .catch((error) => {
             res.status(412).json({ status: 'fail', message: 'not created' })
-        })
+        });
+    console.log('Promising to save');
 }
 
 
@@ -36,12 +38,12 @@ function deleteBook(req, res) {
     const id = req.params.id;
 
     Book.findByIdAndDelete(id).
-        then((result) =>{
+        then((result) => {
             if (result) {
                 res.status(203).send({ message: 'deleted' })
             }
             else {
-                res.status(404).send({message: 'not found'})
+                res.status(404).send({ message: 'not found' })
             }
         })
         .catch((error) =>
