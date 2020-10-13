@@ -3,11 +3,24 @@ import { Book } from "./bookModel";
 
 
 function readBooks(req, res, options = []) {
-    Book.find()
-        .then((result) =>
-            res.json(result))
+
+    const title = req.query.title;
+    let filter = {};
+
+
+    if (title)
+    { 
+        console.log(title);
+        filter = {title: title};
+    }
+
+    Book.find(filter)
+        .then((result) => {
+            res.json(result)
+        })
         .catch((error) =>
-            res.status(500).json({ error: 'An error' }))
+            res.status(500).json({ error: 'An error' }));
+
 }
 
 function readBook(req, res) {
