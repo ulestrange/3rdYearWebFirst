@@ -41,7 +41,9 @@ function createBook(req, res) {
     bookDoc.save()
         .then((result) => {
             console.log('booked saved');
-            res.status(201).json({ id: result._id, uri: result.uri })
+            res.location('/books/' + result._id)
+            .status(201)
+            .json({ id: result._id, uri: result.uri })
         })
         .catch((error) => {
             res.status(412).json({ status: 'fail', message: 'not created' })
