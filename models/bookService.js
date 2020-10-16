@@ -26,8 +26,11 @@ function readBooks(req, res, options = []) {
 function readBook(req, res) {
     const id = req.params.id;
     Book.findById(id)
-        .then((result) =>
-            res.json(result))
+        .then((result) => {
+            console.log('result' + result.uri);
+        
+            res.json(result)
+        })
         .catch((error) =>
             res.status(404).json({ error: 'not found' }))
 }
@@ -38,7 +41,7 @@ function createBook(req, res) {
     bookDoc.save()
         .then((result) => {
             console.log('booked saved');
-            res.status(201).json({ id: result._id, uri: `/books/${result._id}` })
+            res.status(201).json({ id: result._id, uri: result.uri })
         })
         .catch((error) => {
             res.status(412).json({ status: 'fail', message: 'not created' })

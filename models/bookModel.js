@@ -12,8 +12,12 @@ const BookSchema = new Schema(
         summary: { type: String, required: true },
         isbn: { type: String, required: true },
     })
-    
 
+
+    // not working - anyone know why?
+// BookSchema.virtual('uri').get(() => {
+//     return '\\books' + this._id;
+// });
 
 let Book = mongoose.model('Book', BookSchema);
 
@@ -22,4 +26,7 @@ let Book = mongoose.model('Book', BookSchema);
 
 
 
-export  {Book }
+
+
+
+export { Book }
