@@ -5,6 +5,7 @@ import { Book } from "./bookModel";
 function readBooks(req, res, options = []) {
 
     const title = req.query.title;
+    const isbn = req.query.isbn;
     let filter = {};
 
 
@@ -13,6 +14,13 @@ function readBooks(req, res, options = []) {
         console.log(title);
         filter = {title: title};
     }
+
+    if (isbn)
+    {
+        console.log(isbn);
+        filter = {isbn: isbn}
+    }
+    
 
     Book.find(filter)
         .then((result) => {
