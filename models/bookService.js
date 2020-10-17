@@ -4,21 +4,21 @@ import { Book } from "./bookModel";
 
 function readBooks(req, res, options = []) {
 
-    const title = req.query.title;
-    const isbn = req.query.isbn;
-    let filter = {};
+// this uses object deconstruction to 
 
+    const {title, isbn } = req.query;
+    let filter = {};
 
     if (title)
     { 
         console.log(title);
-        filter = {title: title};
+        filter.title = title;
     }
 
     if (isbn)
     {
         console.log(isbn);
-        filter = {isbn: isbn}
+        filter.isbn = isbn
     }
     
 
