@@ -4,30 +4,31 @@ import { Book } from "./bookModel";
 
 function readBooks(req, res, options = []) {
 
-// this uses object deconstruction to 
+    // this uses object deconstruction to extract the data from the query string
 
-    const {title, isbn } = req.query;
+    const { title, isbn, limit } = req.query;
     let filter = {};
 
-    if (title)
-    { 
+    if (title) {
         console.log(title);
         filter.title = title;
     }
 
-    if (isbn)
-    {
+    if (isbn) {
         console.log(isbn);
         filter.isbn = isbn
     }
-    
+
+    const limitNumber = parseInt(limit)
 
     Book.find(filter)
+        .limit(limitNumber)
         .then((result) => {
             res.json(result)
         })
         .catch((error) =>
-            res.status(500).json({ error: 'An error' }));
+            res.status(500).json({ error: 'An error' + error}))
+
 
 }
 
@@ -36,7 +37,7 @@ function readBook(req, res) {
     Book.findById(id)
         .then((result) => {
             console.log('result' + result.uri);
-        
+
             res.json(result)
         })
         .catch((error) =>
@@ -50,8 +51,8 @@ function createBook(req, res) {
         .then((result) => {
             console.log('booked saved');
             res.location('/books/' + result._id)
-            .status(201)
-            .json({ id: result._id, uri: result.uri })
+                .status(201)
+                .json({ id: result._id, uri: result.uri })
         })
         .catch((error) => {
             res.status(412).json({ status: 'fail', message: 'not created' })
