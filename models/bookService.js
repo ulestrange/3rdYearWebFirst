@@ -9,18 +9,28 @@ function readBooks(req, res, options = []) {
     // const title = req.query.title
     // const isbn = req.query.isbn
     // const limit = req.query.limit
+    // const sum = req.query.sum
 
-    const { title, isbn, limit } = req.query;
+    const { title, isbn, limit, sum } = req.query;
     let filter = {};
 
     if (title) {
-        console.log(title);
-        filter.title = title;
+
+        filter.title = { $regex: `^${title}$`, $options: 'i' };
     }
 
     if (isbn) {
-        console.log(isbn);
+
         filter.isbn = isbn
+    }
+
+    if (sum) {
+        console.log(sum);
+
+        // the filter is for a string which contains the sum text and is case insensitive.
+        // could also use the syntax          filter.summary = `/%{sum}/i`;
+
+        filter.summary = { $regex: sum, $options: 'i' };
     }
 
     const limitNumber = parseInt(limit)
@@ -31,7 +41,7 @@ function readBooks(req, res, options = []) {
             res.json(result)
         })
         .catch((error) =>
-            res.status(500).json({ error: 'An error' + error}))
+            res.status(500).json({ error: 'An error' + error }))
 
 
 }
@@ -59,11 +69,32 @@ function createBook(req, res) {
                 .json({ id: result._id, uri: result.uri })
         })
         .catch((error) => {
-            res.status(412).json({ status: 'fail', message: 'not created' })
+            res.status(412).json({ status: 'fail', message: 'not created' + error })
         });
     console.log('Promising to save');
 }
 
+function updateBook(req, res) {
+    const id = req.params.id;
+
+    console.log('updateing book' + id)
+
+
+    // note the syntax here. 
+    // ...req.body - the three 
+    Book.findByIdAndUpdate({_id: id}, {...req.body}).
+    then((result) => {
+        if (result) {
+            res.status(200).send({ message: 'updated' })
+        }
+        else {
+            res.status(404).send({ message: 'not found' })
+        }
+    })
+    .catch((error) =>
+        res.status(404).send({ message: 'not found' + error }));
+
+}
 
 function deleteBook(req, res) {
     const id = req.params.id;
@@ -78,9 +109,9 @@ function deleteBook(req, res) {
             }
         })
         .catch((error) =>
-            res.status(404).send({ message: 'not found' }));
+            res.status(404).send({ message: 'not found' + error }));
 }
 
 
 
-export default { createBook, deleteBook, readBooks, readBook }
+export default { createBook, deleteBook, readBooks, readBook, updateBook }

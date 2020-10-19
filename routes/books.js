@@ -30,4 +30,9 @@ router.delete('/:id',(req, res) => {
 
 })
 
+router.put('/:id', (req, res) => {
+
+  db.updateBook(req,res)
+})
+
 export default router;

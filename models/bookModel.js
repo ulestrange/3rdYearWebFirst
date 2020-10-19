@@ -10,7 +10,9 @@ const Schema = mongoose.Schema;
 const BookSchema = new Schema(
     {
         title: { type: String, required: true },
+        starRating: {type: Number, min: 0, max: 5},
         summary: { type: String, required: true },
+        keywords: [ String],
         isbn: { type: String, required: true, index :{unique: true} },
     },
     { toJSON: { virtuals: true } }) // include virtuals when document is converted to JSON
