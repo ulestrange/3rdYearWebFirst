@@ -5,6 +5,10 @@ import { Book } from "./bookModel";
 function readBooks(req, res, options = []) {
 
     // this uses object deconstruction to extract the data from the query string
+    // it is equivalent to writing
+    // const title = req.query.title
+    // const isbn = req.query.isbn
+    // const limit = req.query.limit
 
     const { title, isbn, limit } = req.query;
     let filter = {};
@@ -50,7 +54,7 @@ function createBook(req, res) {
     bookDoc.save()
         .then((result) => {
             console.log('booked saved');
-            res.location('/books/' + result._id)
+            res.location(result.uri)
                 .status(201)
                 .json({ id: result._id, uri: result.uri })
         })
