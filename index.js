@@ -1,6 +1,7 @@
 import express from 'express';
 
 import books from './routes/books';
+import users from './routes/users';
 import mongoose from 'mongoose';
 
 const app = express();
@@ -41,6 +42,7 @@ app.use(express.json());
 
 
 app.use('/books', books);
+app.use('/users', users);
 
 
 
