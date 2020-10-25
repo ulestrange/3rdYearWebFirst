@@ -25,7 +25,8 @@ function readUser(req, res){
 
 function createUser (req, res)  {
 
-    // need to check that the password exists before doing this 
+    // to do! need to check that the password exists before doing this 
+    
    
     const salt = crypto.randomBytes(16).toString('base64');
     const hash = crypto.createHmac('sha512',salt).update(req.body.password).digest('base64');
@@ -47,6 +48,7 @@ function createUser (req, res)  {
 
 
 function readUsers (req, res) {
+
     User.find()
     .then((result) => {
         res.json(result)
@@ -55,6 +57,11 @@ function readUsers (req, res) {
         res.status(500).json({ error: 'An error' + error }))
 }
             
+
+function findUserByEmail (email) {
+    return User.find({email: email});
+
+}
 
 // patchUser = (id, userData) => {
 //     return User.findOneAndUpdate({
@@ -79,4 +86,4 @@ function deleteUser(req, res) {
 }
 
 
-export default { readUsers, createUser, readUser, deleteUser}
+export default { readUsers, createUser, readUser, deleteUser, findUserByEmail }

@@ -2,13 +2,15 @@
 import express from 'express';
 
 import userDB from '../models/userService';
+import ValidationMiddleware from '../middleware/validation';
 
 const router = express.Router();
 
 
-router.post('/', (req, res) => {
-    userDB.createUser(req, res);
-});
+router.post('/', [ ValidationMiddleware.validJWTNeeded, (req, res) => {
+    
+    userDB.createUser(req, res);}]
+);
 
 
 router.get('/', (req, res) => {
