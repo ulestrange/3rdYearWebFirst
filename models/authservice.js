@@ -25,7 +25,7 @@ function login (req, res)  {
 function refresh_token (req, res) {
     try {
         req.body = req.jwt;
-        let token = jwt.sign(req.body, jwtSecret);
+        let token = jwt.sign(req.body, secret);
         res.status(201).send({id: token});
     } catch (err) {
         res.status(500).send({errors: err});
