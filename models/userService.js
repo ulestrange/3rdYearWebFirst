@@ -9,19 +9,7 @@ function readUser(req, res){
 }
 
 
-// findByEmail = (email) => {
-//     return User.find({email: email});
-// };
 
-// findById = (id) => {
-//     return User.findById(id)
-//         .then((result) => {
-//             result = result.toJSON();
-//             delete result._id;
-//             delete result.__v;
-//             return result;
-//         });
-// };
 
 function createUser (req, res)  {
 
