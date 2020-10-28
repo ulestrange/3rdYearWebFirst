@@ -8,10 +8,10 @@ let secret =  'unasverySecretSecret' // would normally import this from a config
 
 function login (req, res)  {
     try {
-        let refreshId = req.body.userId + secret;
+        let refreshId = res.locals.auth.userId + secret;
         let salt = crypto.randomBytes(16).toString('base64');
         let hash = crypto.createHmac('sha512', salt).update(refreshId).digest("base64");
-        req.body.refreshKey = salt;
+        res.locals.auth.refreshKey = salt;
         let token = jwt.sign(res.locals.auth, secret);
         let b = Buffer.from(hash);
         let refresh_token = b.toString('base64');

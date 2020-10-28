@@ -3,9 +3,10 @@ import express from 'express'
 
 
 import VerifyUserMiddleware from '../middleware/verifyuser';
+import ValidationMiddleware from '../middleware/validation'
 import AuthService from '../models/authservice';
 
-let secret =  'unasverySecretSecret' // would normally import this from a config file
+let secret = 'unasverySecretSecret' // would normally import this from a config file
 
 
 const router = express.Router();
@@ -23,14 +24,17 @@ router.post('/', [
 ])
 
 
-router.post('/refesh',  )
+// Handle the endpoint /auth/refresh
+// verifty that a valid JWT is present
+// verify that the refresh token is present
+//
 
-// Handle the endpoint auth/refresh
-
-// (req, res) => {
-//     userDB.readUsers(req, res);
-// }
-
+router.post('/refresh', [
+    ValidationMiddleware.validJWTNeeded,
+    ValidationMiddleware.verifyRefreshBodyField,
+    ValidationMiddleware.validRefreshNeeded,
+    AuthService.login
+]);
 
 
 
