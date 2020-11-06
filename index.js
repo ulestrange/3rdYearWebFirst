@@ -1,9 +1,12 @@
 import express from 'express';
+import cors from 'cors';
 
 import books from './routes/books';
 import mongoose from 'mongoose';
 
 const app = express();
+
+app.use(cors());
 
 const port = 3000;
 
