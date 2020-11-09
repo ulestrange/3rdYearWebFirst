@@ -13,11 +13,11 @@ const app = express();
 // for example purposes only this will only
 // allow access from a specific origin.
 // to allow access from anywhere leave the options blank
-let corsOptions = {
-  origin: 'http://localhost:4200'
-}
+// let corsOptions = {
+//   origin: 'http://localhost:4200'
+// }
 
-app.use('/books',cors(corsOptions));
+app.use('/books',cors());
 
 const port = 3000;
 
