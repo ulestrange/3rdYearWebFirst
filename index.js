@@ -6,7 +6,18 @@ import mongoose from 'mongoose';
 
 const app = express();
 
-app.use(cors());
+// to allow requests from different origins
+// for the /books routes only.
+
+
+// for example purposes only this will only
+// allow access from a specific origin.
+// to allow access from anywhere leave the options blank
+let corsOptions = {
+  origin: 'http://localhost:4200'
+}
+
+app.use('/books',cors(corsOptions));
 
 const port = 3000;
 
