@@ -26,5 +26,7 @@ coverage
 # Benchmarking
 benchmarks/graphs
 
-#ssl
+
+## SSL certificate
 ssl
+

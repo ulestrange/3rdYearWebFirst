@@ -1,8 +1,15 @@
 import express from 'express';
 import cors from 'cors';
+import https from 'https';
+import fs from 'fs'
 
 import books from './routes/books';
 import mongoose from 'mongoose';
+
+const options = {
+  key: fs.readFileSync("ssl/unalocal.key"),
+  cert: fs.readFileSync("ssl/unalocal.cert")
+};
 
 const app = express();
 
@@ -73,3 +80,6 @@ app.all('*', (req, res) => {
 
 app.listen(port, () => console.log(`Example app listening on 
   ${port}!`))
+
+  https.createServer(options, app).listen(8080, () => 
+  console.log('listening on 8080 too, don\'t forget the https'));
