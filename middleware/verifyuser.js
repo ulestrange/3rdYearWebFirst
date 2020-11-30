@@ -2,6 +2,16 @@
   
 import userService from '../models/userService';
 import crypto from 'crypto';
+import { format } from 'path';
+import FacebookTokenStragegy  from 'passport-facebook-token'
+import config from '../config'
+
+import { User } from '../models/userModel';
+import { profile } from 'console';
+
+
+import axios from 'axios'
+
 
 
 function hasAuthValidFields  (req, res, next) {
@@ -24,6 +34,8 @@ function hasAuthValidFields  (req, res, next) {
         return res.status(400).send({errors: 'Missing email and password fields'});
     }
 };
+
+
 
 function isPasswordAndUserMatch (req, res, next)  {
     userService.findUserByEmail (req.body.email)
@@ -50,5 +62,45 @@ function isPasswordAndUserMatch (req, res, next)  {
         });
 };
 
-export default { isPasswordAndUserMatch, hasAuthValidFields }
+// send the token to facebook to check if it is valid and
+// get the data we need back.
+// then we check if user exists or is new - save the details
+// and send data back to the client.
+
+function isValidFaceBookUser (req, res, next)
+{
+    const accessToken = req.body.accessToken;
+    console.log ('access token from client: ' + accessToken)
+
+    getFacebookUserData(accessToken).then(
+        (data) => {
+            res.locals.auth = data;
+            console.log(res.locals.auth);
+            return next();
+        })
+        .catch((error) => {
+        return res.status(401).send({errors: 'Unauthorized'})
+        });
+    }
+    
+
+
+// this uses axios which is a package for making http requests from
+// a server (the server is acting like a client)
+
+
+async function getFacebookUserData(access_token) {
+    const { data } = await axios({
+      url: 'https://graph.facebook.com/v8.0/me',
+      method: 'get',
+      params: { access_token: access_token}
+    //   params: {
+    //     fields: ['id', 'email', 'first_name', 'last_name'].join(','),
+    //     access_token: accesstoken,
+    //   },
+    });
+    return data;
+  };
+
+export default { isPasswordAndUserMatch, hasAuthValidFields, isValidFaceBookUser }
 

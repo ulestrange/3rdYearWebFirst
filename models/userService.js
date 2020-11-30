@@ -24,7 +24,7 @@ function createUser (req, res)  {
     const user = new User(req.body);
     user.save()
     .then((result) => {
-        console.log('user created');
+        console.log('user created with password');
         res.location(result.id)
             .status(201)
             .json({ id: result.id })
@@ -73,5 +73,23 @@ function deleteUser(req, res) {
             res.status(404).send({ message: 'not found' + error }));
 }
 
+function findOneOrCreate(){
+    
+}
 
-export default { readUsers, createUser, readUser, deleteUser, findUserByEmail }
+function findOrCreate (){
+    user.save()
+    .then((result) => {
+        console.log('user created with password');
+        res.location(result.id)
+            .status(201)
+            .json({ id: result.id })
+    })
+    .catch((error) => {
+        res.status(412).json({ status: 'fail', message: 'not created ' + error })
+    });
+
+}
+
+export default { readUsers, createUser, readUser, deleteUser, findUserByEmail,
+findOrCreate }

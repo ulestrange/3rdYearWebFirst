@@ -8,10 +8,12 @@ const Schema = mongoose.Schema;
 
 const UserSchema = new Schema(
     {
+    method: String,
+    facebook : Object,
     firstName: String,
     lastName: String,
-    email: { type: String, required: true, index :{unique: true} },
-    password: { type: String, required: true },
+    email: { type: String, required: false, index :{unique: true} },
+    password: { type: String, required: false },
     permissionLevel: Number  // for later athorization
     },
     { toJSON: { virtuals: true } } // include virtuals when document is converted to JSON   
@@ -23,6 +25,7 @@ UserSchema.plugin(uniqueValidator);
 UserSchema.virtual('id').get(function () {
     return this._id.toHexString();
 });
+
 
 
 

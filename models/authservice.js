@@ -22,6 +22,11 @@ function login (req, res)  {
     }
 };
 
+function facebookLogin (req, res) {
+    let token = jwt.sign(res.locals.auth, secret);
+    res.send({accessToken: token})
+}
+
 function refresh_token (req, res) {
     try {
         req.body = req.jwt;
@@ -32,4 +37,4 @@ function refresh_token (req, res) {
     }
 };
 
-export default { login, refresh_token }
+export default { login, refresh_token , facebookLogin}

@@ -4,8 +4,14 @@ import books from './routes/books';
 import users from './routes/users';
 import auth from './routes/auth';
 import mongoose from 'mongoose';
+import cors from 'cors';
+
+import https from 'https';
+import fs from 'fs';
 
 const app = express();
+
+app.use(cors());
 
 const port = 3000;
 
@@ -36,6 +42,12 @@ db.once('open', () => {
 });
 
 
+const sslOptions = {
+  key: fs.readFileSync("ssl/unalocal.key"),
+  cert: fs.readFileSync("ssl/unalocal.cert")
+};
+
+
 
 // Configuring the built-in express body parser middleware
 app.use(express.urlencoded({ extended: false }));
@@ -63,3 +75,7 @@ app.all('*', (req, res) => {
 
 app.listen(port, () => console.log(`Example app listening on 
   ${port}!`))
+
+
+  https.createServer(sslOptions, app).listen(8080, () => 
+  console.log('listening on 8080 too, don\'t forget the https'));

@@ -6,6 +6,7 @@ import VerifyUserMiddleware from '../middleware/verifyuser';
 import ValidationMiddleware from '../middleware/validation'
 import AuthService from '../models/authservice';
 
+
 let secret = 'unasverySecretSecret' // would normally import this from a config file
 
 
@@ -37,6 +38,14 @@ router.post('/refresh', [
 ]);
 
 
+// Handle the endpoint /auth/facebook
+// Verify with facebook that a valid token is present.
+// Then check if they already have an account, if not create one
+// then send them a JWT
 
+
+
+router.post('/facebook', [VerifyUserMiddleware.isValidFaceBookUser,
+AuthService.facebookLogin ]);
 
 export default router;

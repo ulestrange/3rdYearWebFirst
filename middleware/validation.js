@@ -2,8 +2,10 @@ import jwt from 'jsonwebtoken'
 
 import crypto from 'crypto';
 
+import config from '../config'
 
-let secret =  'unasverySecretSecret' // would normally import this from a config file
+
+let secret = config.secret;  // would normally import this from a config file
 
 function verifyRefreshBodyField (req, res, next) {
     if (req.body && req.body.refresh_token) {
