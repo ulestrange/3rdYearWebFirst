@@ -5,22 +5,19 @@ import uniqueValidator from 'mongoose-unique-validator';
 
 const Schema = mongoose.Schema;
 
-// userId will be
-// facebook:facebookId or
-// email:emailId
+// Users will either have an authID which will be their facebookId
+// or they will have an e-mail.
 
 const UserSchema = new Schema(
     {
-    userId: String,
+    authId: {type: String, index : {unique : true}},
     name: String,
-    email: { type: String, required: false, index :{unique: true} },
-    password: { type: String, required: false },
+    email: { type: String,  index :{unique: true} },
+    password: { type: String }, 
     permissionLevel: Number,  // for later athorization
-    created: date
     },
     { toJSON: { virtuals: true } } // include virtuals when document is converted to JSON   
 );
-// to ensure that index marked as unique will not be duplicated - in the case e-mail
 
 UserSchema.plugin(uniqueValidator);
 

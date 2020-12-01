@@ -27,10 +27,7 @@ function login (req, res)  {
 
 const minutes = 5;
 
-function facebookLogin (req, res) {
-    let token = jwt.sign(res.locals.auth, secret, {expiresIn: minutes * 60 });
-    res.send({token: token})
-}
+
 
 function refresh_token (req, res) {
     try {
@@ -42,4 +39,4 @@ function refresh_token (req, res) {
     }
 };
 
-export default { login, refresh_token , facebookLogin}
+export default { login, refresh_token }

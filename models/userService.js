@@ -10,16 +10,18 @@ function readUser(req, res){
 
 
 
-
+// this is for users that have an e-mail and a password
 function createUser (req, res)  {
-
-    // to do! need to check that the password exists before doing this 
-    
+  
+    if (!req.body.password)
+    {
+        res.status(412).json({ status: 'fail', message: 'not created ' + error })
+    }
    
     const salt = crypto.randomBytes(16).toString('base64');
     const hash = crypto.createHmac('sha512',salt).update(req.body.password).digest('base64');
     req.body.password = salt + '$' + hash;
-    //req.body.permissionlevel = 1;
+    req.body.permissionlevel = 1;
 
     const user = new User(req.body);
     user.save()
@@ -34,8 +36,12 @@ function createUser (req, res)  {
     });
 };
 
-function createFacebookUser (req, res){
-    const
+
+// this is for facebook users
+// the data necessary will have been added in the middleware
+
+function createOrUpdateFacebookUser (req, res){
+    
 }
 
 function readUsers (req, res) {
@@ -54,8 +60,8 @@ function findUserByEmail (email) {
 
 }
 
-function findUserByUserId (userId){
-    return User.find({userId: userId})
+function findUserByAuthId (authId){
+    return User.find({authId: authId})
 }
 
 // patchUser = (id, userData) => {
@@ -85,4 +91,4 @@ function deleteUser(req, res) {
 
 
 export default { readUsers, createUser, readUser, deleteUser, findUserByEmail,
-findUserByUserId}
+findUserByAuthId}
