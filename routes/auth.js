@@ -5,9 +5,10 @@ import express from 'express'
 import VerifyUserMiddleware from '../middleware/verifyuser';
 import ValidationMiddleware from '../middleware/validation'
 import AuthService from '../models/authservice';
+import config from '../config'
 
 
-let secret = 'unasverySecretSecret' // would normally import this from a config file
+let secret =  config.secret; // would normally import this from a config file
 
 
 const router = express.Router();
@@ -50,6 +51,6 @@ router.post('/refresh',
 router.post('/facebook', 
 VerifyUserMiddleware.isValidFaceBookUser,
 VerifyUserMiddleware.findOrCreateFaceBookUser,
-AuthService.login );
+AuthService.facebookLogin );
 
 export default router;

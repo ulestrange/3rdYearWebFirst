@@ -1,14 +1,15 @@
 
 import jwt from 'jsonwebtoken';
 import crypto  from 'crypto';
+import config from '../config';
 
 
-let secret =  'unasverySecretSecret' // would normally import this from a config file
+let secret =  config.secret; // would normally import this from a config file
 
 
 function login (req, res)  {
     try {
-        let refreshId = res.locals.auth.userId + secret;
+        let refreshId = res.locals.auth.id + secret;
         let salt = crypto.randomBytes(16).toString('base64');
         let hash = crypto.createHmac('sha512', salt).update(refreshId).digest("base64");
         res.locals.auth.refreshKey = salt;
@@ -39,4 +40,12 @@ function refresh_token (req, res) {
     }
 };
 
-export default { login, refresh_token }
+// no refrest token needed for facebooklogin that
+// is handled by the facebook auth service.
+
+function facebookLogin (req, res) {
+    let token = jwt.sign(res.locals.auth, secret ,{expiresIn: 15 * 60});
+    res.send({token: token})
+}
+
+export default { login, refresh_token, facebookLogin }

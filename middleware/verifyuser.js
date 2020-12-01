@@ -77,8 +77,8 @@ function isValidFaceBookUser(req, res, next) {
             console.log (' facebook data '+ JSON.stringify(data));
          
             res.locals.auth = {
-                authId: data.id,
-                name: data.name
+                authId: data.id, // the facebook id
+                name: data.name,
             }
             return next();
         })
@@ -112,10 +112,19 @@ function findOrCreateFaceBookUser(req, res, next) {
     User.findOne({ authId: res.locals.auth.authId })
         .then((user) => {
             if (user) {
-                res.locals.auth = user;
+                res.locals.auth = {
+                    id: user._id,
+                    permissionLevel: user.permissionLevel,
+                };
             }
             else {
                 const newUser = new User(res.locals.auth);
+                newUser.permissionLevel = 1;
+                res.locals.auth = {
+                    id: newUser._id,
+                    permissionLevel: newUser.permissionLevel,
+                };
+
                 newUser.save()
                     .then((result) => {
                         console.log('user created from facebook');
