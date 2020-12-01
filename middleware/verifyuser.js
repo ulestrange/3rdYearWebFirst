@@ -36,6 +36,8 @@ function hasAuthValidFields  (req, res, next) {
 };
 
 
+// will need to fix this to take into account different
+// user types
 
 function isPasswordAndUserMatch (req, res, next)  {
     userService.findUserByEmail (req.body.email)
@@ -74,8 +76,19 @@ function isValidFaceBookUser (req, res, next)
 
     getFacebookUserData(accessToken).then(
         (data) => {
-            res.locals.auth = data;
-            console.log(res.locals.auth);
+            const userId = 'facebook:' + data.id;
+            
+
+            userService.findUserByUserId(userId).then
+            ((user) => {
+                if (user[0]){
+                    req.user = user[0]
+                }
+                else
+
+                
+            })
+            
             return next();
         })
         .catch((error) => {
@@ -91,13 +104,12 @@ function isValidFaceBookUser (req, res, next)
 
 async function getFacebookUserData(access_token) {
     const { data } = await axios({
-      url: 'https://graph.facebook.com/v8.0/me',
+      url: 'https://graph.facebook.com/v8.0/me/',
       method: 'get',
-      params: { access_token: access_token}
-    //   params: {
-    //     fields: ['id', 'email', 'first_name', 'last_name'].join(','),
-    //     access_token: accesstoken,
-    //   },
+      params: { 
+          access_token: access_token, 
+         //  fields: ['id','name', 'email'] - not working why????
+        }
     });
     return data;
   };

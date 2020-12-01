@@ -5,16 +5,18 @@ import uniqueValidator from 'mongoose-unique-validator';
 
 const Schema = mongoose.Schema;
 
+// userId will be
+// facebook:facebookId or
+// email:emailId
 
 const UserSchema = new Schema(
     {
-    method: String,
-    facebook : Object,
-    firstName: String,
-    lastName: String,
+    userId: String,
+    name: String,
     email: { type: String, required: false, index :{unique: true} },
     password: { type: String, required: false },
-    permissionLevel: Number  // for later athorization
+    permissionLevel: Number,  // for later athorization
+    created: date
     },
     { toJSON: { virtuals: true } } // include virtuals when document is converted to JSON   
 );

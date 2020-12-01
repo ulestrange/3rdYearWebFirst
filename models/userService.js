@@ -34,6 +34,9 @@ function createUser (req, res)  {
     });
 };
 
+function createFacebookUser (req, res){
+    const
+}
 
 function readUsers (req, res) {
 
@@ -49,6 +52,10 @@ function readUsers (req, res) {
 function findUserByEmail (email) {
     return User.find({email: email});
 
+}
+
+function findUserByUserId (userId){
+    return User.find({userId: userId})
 }
 
 // patchUser = (id, userData) => {
@@ -73,23 +80,9 @@ function deleteUser(req, res) {
             res.status(404).send({ message: 'not found' + error }));
 }
 
-function findOneOrCreate(){
-    
-}
 
-function findOrCreate (){
-    user.save()
-    .then((result) => {
-        console.log('user created with password');
-        res.location(result.id)
-            .status(201)
-            .json({ id: result.id })
-    })
-    .catch((error) => {
-        res.status(412).json({ status: 'fail', message: 'not created ' + error })
-    });
 
-}
+
 
 export default { readUsers, createUser, readUser, deleteUser, findUserByEmail,
-findOrCreate }
+findUserByUserId}
