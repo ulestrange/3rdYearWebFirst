@@ -46,8 +46,6 @@ router.post('/refresh',
 // then return a JWT 
 
 
-
-
 router.post('/facebook', 
 VerifyUserMiddleware.isValidFaceBookUser,
 VerifyUserMiddleware.findOrCreateFaceBookUser,

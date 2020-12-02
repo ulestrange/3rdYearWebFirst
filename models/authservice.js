@@ -13,10 +13,10 @@ function login (req, res)  {
         let salt = crypto.randomBytes(16).toString('base64');
         let hash = crypto.createHmac('sha512', salt).update(refreshId).digest("base64");
         res.locals.auth.refreshKey = salt;
-        let token = jwt.sign(res.locals.auth, secret ,{expiresIn: 15 * 60});
+        let appToken = jwt.sign(res.locals.auth, secret ,{expiresIn: 15 * 60});
         let b = Buffer.from(hash);
         let refresh_token = b.toString('base64');
-        res.status(201).send({token: token, refreshToken: refresh_token});
+        res.status(201).send({appToken: appToken, refreshToken: refresh_token});
         console.log('login success');
     } catch (err) {
         res.status(500).send({errors: err});
@@ -29,6 +29,7 @@ function login (req, res)  {
 const minutes = 5;
 
 
+// Not working yet.
 
 function refresh_token (req, res) {
     try {
@@ -40,12 +41,12 @@ function refresh_token (req, res) {
     }
 };
 
-// no refrest token needed for facebooklogin that
+// no refresh token needed for facebooklogin that
 // is handled by the facebook auth service.
 
 function facebookLogin (req, res) {
-    let token = jwt.sign(res.locals.auth, secret ,{expiresIn: 15 * 60});
-    res.send({token: token})
+    let appToken = jwt.sign(res.locals.auth, secret ,{expiresIn: 2 * 60});
+    res.send({appToken: appToken})
 }
 
 export default { login, refresh_token, facebookLogin }
