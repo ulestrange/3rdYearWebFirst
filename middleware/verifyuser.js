@@ -2,12 +2,12 @@
 
 import userService from '../models/userService';
 import crypto from 'crypto';
-import { format } from 'path';
-import FacebookTokenStragegy from 'passport-facebook-token'
+
+
 import config from '../config'
 
 import { User } from '../models/userModel';
-import { profile } from 'console';
+
 
 
 import axios from 'axios'
