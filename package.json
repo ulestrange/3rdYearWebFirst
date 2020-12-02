@@ -17,7 +17,6 @@
     "express-jwt": "^6.0.0",
     "mongoose": "^5.10.9",
     "mongoose-unique-validator": "^2.0.3",
-    "passport": "^0.4.1",
-    "passport-facebook-token": "^4.0.0"
+
   }
 }

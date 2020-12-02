@@ -19,7 +19,7 @@ router.post('/', (req, res) => {
     userDB.createUser(req, res);}
 );
 
-router.get('/', (req, res) => {
+router.get('/', ValidationMiddleware.validJWTNeeded, (req, res) => {
     userDB.readUsers(req, res);
 });
 

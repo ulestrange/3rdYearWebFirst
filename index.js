@@ -8,6 +8,7 @@ import cors from 'cors';
 
 import https from 'https';
 import fs from 'fs';
+import config from './config'
 
 const app = express();
 
@@ -20,7 +21,7 @@ const port = 3000;
 // Errors awill be logged to the console.
 // this would normally come from a config file
 
-const connectionString = 'mongodb://127.0.0.1:27017/cat'
+const connectionString = config.connectionString;
 
 mongoose.connect(connectionString, {
   "useNewUrlParser": true,
