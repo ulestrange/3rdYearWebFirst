@@ -83,14 +83,14 @@ function isValidFaceBookUser(req, res, next) {
             return next();
         })
         .catch((error) => {
-            return res.status(401).send({ errors: 'Unauthorized -couldn\'t save' })
+            return res.status(401).send({ errors: 'Unauthorized -from isFacebookValidUser' })
         });
 }
 
-function facebookLogin(req, res) {
-    let token = jwt.sign(res.locals.auth, secret, { expiresIn: minutes * 60 });
-    res.send({ token: token })
-}
+// function facebookLogin(req, res) {
+//     let token = jwt.sign(res.locals.auth, secret, { expiresIn: minutes * 60 });
+//     res.send({ apptoken: apptoken })
+// }
 
 // this uses axios which is a package for making http requests from
 // a server (the server is acting like a client)
@@ -130,7 +130,7 @@ function findOrCreateFaceBookUser(req, res, next) {
                         console.log('user created from facebook');
                     })
                     .catch((error) => {
-                        res.status(401).json({ status: 'fail', message: 'not authorized ' + error })
+                        res.status(401).json({ status: 'fail', message: 'failed to create ' + error })
                     });
             }
             next();
